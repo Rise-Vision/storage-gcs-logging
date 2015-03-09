@@ -4,18 +4,38 @@
   </listener>
 
   <servlet>
-    <servlet-name>Hello</servlet-name>
-    <servlet-class>com.risevision.gcslogs.HelloServlet</servlet-class>
+    <servlet-name>LoadLogsServlet</servlet-name>
+    <servlet-class>com.risevision.gcslogs.load.LoadLogsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Hello</servlet-name>
-    <url-pattern>/hello</url-pattern>
+    <servlet-name>LoadLogsServlet</servlet-name>
+    <url-pattern>/loadLogs</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteLoadJobFilesServlet</servlet-name>
+    <servlet-class>com.risevision.gcslogs.delete.DeleteLoadJobFilesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteLoadJobFilesServlet</servlet-name>
+    <url-pattern>/deleteLoadJobFiles</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteFailedFileServlet</servlet-name>
+    <servlet-class>com.risevision.gcslogs.delete.DeleteFailedFileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteFailedFileServlet</servlet-name>
+    <url-pattern>/deleteFailedFile</url-pattern>
   </servlet-mapping>
 
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>Buckets</web-resource-name>
-      <url-pattern>/hello</url-pattern>	
+      <web-resource-name>admin</web-resource-name>
+      <url-pattern>/loadLogs</url-pattern>	
+      <url-pattern>/deleteLoadJobFiles</url-pattern>	
+      <url-pattern>/deleteFailedFile</url-pattern>	
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>

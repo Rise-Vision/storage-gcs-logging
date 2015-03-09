@@ -50,6 +50,10 @@
         <directory>src/private-keys</directory>
         <filtering>false</filtering>
       </resource>
+      <resource>
+        <directory>src/log-schemas</directory>
+        <filtering>false</filtering>
+      </resource>
     </resources>
 
     <plugins>
@@ -100,7 +104,7 @@
         <configuration>
           <forkCount>3</forkCount>
           <reuseForks>true</reuseForks>
-          <argLine>-XX:MaxJavaStackTraceDepth=10</argLine>
+          <argLine>-XX:MaxJavaStackTraceDepth=5</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -110,7 +114,7 @@
         <configuration>
           <forkCount>3</forkCount>
           <failIfNoTests>true</failIfNoTests>
-          <argLine>-XX:MaxJavaStackTraceDepth=10</argLine>
+          <argLine>-XX:MaxJavaStackTraceDepth=5</argLine>
         </configuration>
         <executions>
           <execution>
@@ -126,20 +130,34 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>jetty</groupId>
       <artifactId>javax.servlet</artifactId>
       <version>5.1.12</version>
     </dependency>
     <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>${google.client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-storage</artifactId>
+      <version>v1-rev28-${google.client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-bigquery</artifactId>
+      <version>v2-rev193-${google.client.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-1.0-sdk</artifactId>
       <version>${appengine.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20141113</version>
     </dependency>
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -154,9 +172,20 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20141113</version>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-tools-sdk</artifactId>
+      <version>${appengine.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.3.1</version>
     </dependency>
   </dependencies>
 </project>

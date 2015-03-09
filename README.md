@@ -2,14 +2,9 @@
 
 ## Introduction
 
-This module will import Google Cloud Storage logs.  There are two types of logs that are generated from GCS.  Usage logs record per-request information against bucket objects while storage logs record total amount of data stored in a bucket.
+This [Google App Engine](https://cloud.google.com/appengine/docs) (GAE) [module](https://cloud.google.com/appengine/docs/java/modules/) will import [Google Cloud Storage](https://cloud.google.com/storage/) (GCS) logs into [Google BigQuery](https://cloud.google.com/bigquery/).  There are two types of logs that are generated from GCS.  **Usage logs** record per-request information against bucket objects while **storage logs** record total stored data in a bucket.
 
-These logs will be loaded into Google Big Query tables.
-
-This module is used by [Rise Vision](http://help.risevision.com).
-Rise Vision runs on Google App Engine and as such requires GAE to operate. It also uses Google Cloud Storage as a datastore.
-
-Chrome is the only supported browser to use to view the Storage Server API Explorer.
+This module is used by [Rise Vision](http://www.risevision.com).
 
 ## Built With
 
@@ -21,40 +16,35 @@ Chrome is the only supported browser to use to view the Storage Server API Explo
 
 ### Local Development Environment Setup and Installation
 
-#### Linux
-
-* Maven 3 is required so you need to do some things to make sure your apt-get doesn't install an older version of maven.
-
-* clone the repo using Git to your local:
+* Clone the repo using Git
 ```bash
-git clone https://github.com/Rise-Vision/storage-server.git
+git clone https://github.com/Rise-Vision/storage-gcs-logging.git
 ```
 
-* cd into the repo directory
+* Change working directory to the repo directory
 ```bash
-cd storage-server
+cd storage-gcs-logging
 ```
 
-
-* Run this command to start the server locally
+* Run unit tests
 ``` bash
-mvn clean install
-mvn appengine:devserver
+mvn test
 ```
+
+* Run integration tests
+``` bash
+mvn verify
+```
+*Note that integration tests require p12 key files mentioned below.  The tests also expect certain files to be available in a GCS bucket.  See [src/test/resources/integration-test-files.properties](https://github.com/Rise-Vision/storage-gcs-logging/blob/feature/log-load/src/test/resources/integration-test-files.properties)*
 
 ### External Registrations and Requirements
-* Private p12 and client_secret files should go into src/private-keys.  These allow server to server authentication for google cloud storage.
-* P12 file in the src/private-keys directory also allows you to run the api-tests by running ./run-tests.sh --password=(use your google account's password registered with risevision here)
+* Private p12 key files should go into src/private-keys.  These allow server to server authentication for google cloud services.
 * To register your own p12 for google app engine please refer to Google's help page on this topic: 
 https://developers.google.com/storage/docs/authentication
 
-### Build and Deployment Process
-
-#### Linux
-
 ## Submitting Issues 
 
-Issues should be reported in the github issue list at https://github.com/Rise-Vision/storage-server/issues  
+Issues should be reported in the github issue list at https://github.com/Rise-Vision/storage-gcs-logging/issues  
 
 Issues should be reported with the template format as follows:
 
@@ -73,27 +63,15 @@ Screenshots are always helpful with issues.
 
 ## Contributing
 
-All contributions greatly appreciated and welcome! If you would first like to sound your contribution ideas please post your thoughts to our community (http://community.risevision.com), otherwise submit a pull request and we will do our best to incorporate it
+All contributions greatly appreciated and welcome! If you would first like to discuss your contribution ideas please post your thoughts to our community at http://community.risevision.com, otherwise submit a pull request and we will do our best to incorporate it.
 
-### Languages
-
-In order to support languages i18n needs to be added to this repository.  Please refer to our Suggested Contributions.
-
-### Suggested Contributions
-
-* i18n Language Support
-
-## Resources
-
-Source code for the jar files can be found at the following two urls:
- * http://risevision.googlecode.com/svn/!svn/bc/890/trunk/coreAPIjava/src/com/risevision/core/api/
- * https://github.com/Rise-Vision/core/tree/master/core/src/com/risevision/directory
+## Help
 
 If you have any questions or problems please don't hesitate to join our lively and responsive community at http://community.risevision.com.
 
-If you are looking for user documentation on Rise Vision please see http://www.risevision.com/help/users/
+If you are looking for user documentation on Rise Vision please visit http://help.risevision.com/#/user
 
-If you would like more information on developing applications for Rise Vision please visit http://www.risevision.com/help/developers/. 
+If you would like more information on developing applications for Rise Vision please visit http://help.risevision.com/#/developer
 
 ## Facilitator
 [Tyler Johnson](https://github.com/tejohnso "Tyler Johnson")
