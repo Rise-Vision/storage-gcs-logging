@@ -9,9 +9,6 @@ import static org.hamcrest.CoreMatchers.*;
 import com.google.appengine.tools.development.testing.*;
 
 public class AlertServiceIT {
-  private static final Logger log =
-  Logger.getLogger("gcslogs.AlertServiceIT");
-
   private String queuePath;
 
   private LocalServiceTestHelper helper;
@@ -26,7 +23,8 @@ public class AlertServiceIT {
     }
 
     helper = new LocalServiceTestHelper
-    (new LocalTaskQueueTestConfig().setQueueXmlPath(queuePath),
+    (new LocalTaskQueueTestConfig()
+    .setQueueXmlPath(queuePath).setDisableAutoTaskExecution(false),
     new LocalModulesServiceTestConfig().addDefaultModuleVersion()
     .addAutomaticScalingModuleVersion("logger","1"));
 

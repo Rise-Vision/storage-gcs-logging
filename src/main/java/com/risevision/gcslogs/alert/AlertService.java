@@ -10,11 +10,17 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
 import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 
 public class AlertService {
-  private static final com.google.appengine.api.taskqueue.Queue queue =
+  static final com.google.appengine.api.taskqueue.Queue queue =
   com.google.appengine.api.taskqueue.QueueFactory.getQueue("logger");
 
-  private static String targetModuleHost = 
+  static String targetModuleHost = 
   ModulesServiceFactory.getModulesService().getVersionHostname("logger", null);
+
+  static String env =
+  com.google.apphosting.api.ApiProxy.getCurrentEnvironment().getAppId();
+
+  static String currentModule =
+  ModulesServiceFactory.getModulesService().getCurrentModule();
 
   public static TaskHandle alert(String msg, String details) {
     if (msg == null) {return new TaskHandle(null, "");}
@@ -22,8 +28,8 @@ public class AlertService {
 
     return queue.add(withUrl("/queue")
     .param("task", "submit")
-    .param("token", "gcs-logs")
-    .param("environment", "testenviro")
+    .param("token", currentModule)
+    .param("environment", env)
     .param("severity", "alert")
     .param("error_message", msg)
     .param("error_details", details)
