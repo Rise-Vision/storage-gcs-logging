@@ -37,7 +37,7 @@ class LogLoader {
     loadLogs(logsFetcher.getUsageLogs(), "Usage");
     loadLogs(logsFetcher.getStorageLogs(), "Storage");
 
-    log.info("Submitted load and delete jobs for " + loadCount + " filess.");
+    log.info("Submitted load and delete jobs for " + loadCount + " files.");
   }
 
   void loadLogs(List<String> logFileUris, String logType) {
