@@ -11,4 +11,15 @@
        <max-doublings>2</max-doublings>
     </retry-parameters>
   </queue>
+  <queue>
+    <name>logger</name>
+    <max-concurrent-requests>10</max-concurrent-requests>
+    <rate>20/s</rate>
+    <bucket-size>20</bucket-size>
+    <retry-parameters>
+       <min-backoff-seconds>10</min-backoff-seconds>
+       <max-backoff-seconds>600</max-backoff-seconds>
+       <max-doublings>2</max-doublings>
+    </retry-parameters>
+  </queue>
 </queue-entries>

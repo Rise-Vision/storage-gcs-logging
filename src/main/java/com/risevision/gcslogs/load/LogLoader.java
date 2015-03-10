@@ -39,7 +39,7 @@ class LogLoader {
 
     log.info("Submitted load and delete jobs for " + loadCount + " filess.");
     com.risevision.gcslogs.alert.AlertService.alert
-    ("Test message - loading" + loadCount + "logs", null);
+    ("Test message - loading " + loadCount + " logs", null);
   }
 
   void loadLogs(List<String> logFileUris, String logType) {
