@@ -51,7 +51,7 @@ class LogLoader {
 
       subList = logFileUris.subList(startIdxInclusive, endIdxExclusive);
       submitLoadAndDeleteRequests(subList, logType);
-      startIdxInclusive = startIdxInclusive + endIdxExclusive;
+      startIdxInclusive = endIdxExclusive;
     }
   }
 

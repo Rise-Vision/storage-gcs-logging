@@ -17,11 +17,8 @@ import com.risevision.gcslogs.BuildConfig;
 
 public class LogLoaderTest {
   LocalServiceTestHelper helper;
-  LocalTaskQueue ltq;
   LogLoader logLoader;
   MockLoadJobInserter mockLoadJobInserter;
-  String appName = BuildConfig.STORAGE_APP_NAME.toString();
-  String bucketName = BuildConfig.LOGS_BUCKET_NAME.toString();
 
   int FILES_PER_BQ_LOAD_JOB =
   Integer.parseInt(BuildConfig.FILES_PER_BQ_LOAD_JOB.toString());
@@ -33,8 +30,6 @@ public class LogLoaderTest {
     helper = new LocalServiceTestHelper
     (new LocalTaskQueueTestConfig().setQueueXmlPath(queueFilePath));
     helper.setUp();
-
-    ltq = LocalTaskQueueTestConfig.getLocalTaskQueue();
 
     mockLoadJobInserter = new MockLoadJobInserter();
 
@@ -82,6 +77,14 @@ public class LogLoaderTest {
     assertThat("it handles max load amount + 1",
     logLoader.loadCount,
     is(FILES_PER_BQ_LOAD_JOB + 1));
+  }
+
+  @Test public void itHandlesManyMultiplesOfMaxLoadCount() {
+    logLoader.loadLogs(Arrays.asList(new String[FILES_PER_BQ_LOAD_JOB * 5 + 1]), "Usage");
+
+    assertThat("it has the expected count",
+    logLoader.loadCount,
+    is(FILES_PER_BQ_LOAD_JOB * 5 + 1));
   }
 }
 
