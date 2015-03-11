@@ -11,6 +11,10 @@ public class DeleteFailedFileServlet extends HttpServlet {
   private static final Logger log = Logger.getLogger
   ("gcslogs.DeleteFailedFileServlet");
 
+  private static final String errorMessage =
+  "A log file deletion task is blocking log processing.\n" +
+  "No further load jobs will be initiated until the delete task is cleared.";
+
   public void doPost (HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException  {
     log.info("DeleteFailedFileServlet: deleting file");
@@ -24,11 +28,9 @@ public class DeleteFailedFileServlet extends HttpServlet {
     deleter.deleteFile();
     response.setStatus(deleter.getStatus());
 
-    if (retries > 0 && retries % 7 == 0 && deleter.getStatus() != 200) {
-      log.severe("A log deletion task is blocking log processing.  " +
-      "There may be a log load job that can't complete without error, " +
-      "or the deletion job itself can't be submitted without error.  " +
-      "No further load jobs will be initiated until the delete task is cleared.");
+    if (retries > 0 && retries % 8 == 0 && deleter.getStatus() != 200) {
+      com.risevision.gcslogs.alert.AlertService.alert
+      ("Problems deleting a log file", errorMessage);
     }
   }
 }

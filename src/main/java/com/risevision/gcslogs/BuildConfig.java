@@ -3,6 +3,7 @@ package com.risevision.gcslogs;
 import java.io.*;
 import java.util.Properties;
 import java.util.logging.Logger;
+import static com.risevision.gcslogs.alert.AlertService.alert;
 
 public enum BuildConfig {
   LOGS_BUCKET_NAME("LOGS_BUCKET_NAME"),
@@ -28,8 +29,7 @@ public enum BuildConfig {
       InputStream file = BuildConfig.class.getResourceAsStream(FILE_PATH);
       props.load(file);
     } catch (IOException e) {
-      log.severe("Error: " + e.getMessage() + "\n" +
-      "Could not log build config variables from " + FILE_PATH);
+      alert("Could not load config variables from " + FILE_PATH, e.getMessage());
       e.printStackTrace();
       throw new RuntimeException(e);
     }
@@ -41,10 +41,9 @@ public enum BuildConfig {
 
   public String toString() {
     if (!props.containsKey(key)) {
-      log.severe("Build configuration key [" + key + "] does not exist.");
+      alert("Build configuration key [" + key + "] does not exist.");
       throw new RuntimeException("Invalid build configuration key");
     }
     return props.getProperty(key);
   }
 }
-

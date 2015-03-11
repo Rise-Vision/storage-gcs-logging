@@ -29,8 +29,8 @@ public class GCSStorageObjectListRequestor implements StorageObjectListRequestor
     try {
       resp = req.execute();
     } catch (IOException e) {
-      log.severe("Error: " + e.getMessage() + "\n" + 
-      "Could not execute list request.");
+      log.warning("Error: " + e.getMessage() + "\n" + 
+      "Could not execute list request.  Will reattempt on next log load.");
       e.printStackTrace();
     }
 

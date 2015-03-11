@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.services.bigquery.Bigquery;
 import com.google.api.services.bigquery.model.*;
+import static com.risevision.gcslogs.alert.AlertService.alert;
 
 class BQLoadJobInserter implements LoadJobInserter {
   private Bigquery.Jobs.Insert req;
@@ -43,7 +44,7 @@ class BQLoadJobInserter implements LoadJobInserter {
       (fileReader, new TypeToken<List<TableFieldSchema>>(){}.getType());
       fileReader.close();
     } catch (Exception e) {
-      log.severe("Could not load schemas.");
+      alert("Could not load schemas for BQLoadJobInserter.");
       e.printStackTrace();
     }
   }
@@ -78,7 +79,8 @@ class BQLoadJobInserter implements LoadJobInserter {
       req = bq.jobs().insert(PROJECT_ID.toString(), new Job().setConfiguration(jc));
       resp = req.execute();
     } catch (IOException e) {
-      log.severe("Could not submit bq insert job.");
+      log.warning
+      ("Could not submit bq insert job. Will be reattempted on next load run");
       e.printStackTrace();
       return null;
     }

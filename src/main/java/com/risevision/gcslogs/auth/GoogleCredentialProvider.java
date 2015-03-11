@@ -1,6 +1,5 @@
 package com.risevision.gcslogs.auth;
 
-import java.util.logging.Logger;
 import java.util.List;
 import java.util.Arrays;
 
@@ -11,10 +10,9 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential.Builder;
 import com.google.api.client.googleapis.util.Utils;
 
 import static com.risevision.gcslogs.BuildConfig.*;
+import static com.risevision.gcslogs.alert.AlertService.alert;
 
 public class GoogleCredentialProvider implements CredentialProvider{
-  private static final Logger log =
-  Logger.getLogger("gcslogs.GoogleCredentialProvider");
   private static GoogleCredential credential;
   private static File p12File = new File(RVMEDIA_P12_PATH.toString());
   private static GoogleCredential.Builder credentialBuilder =
@@ -35,7 +33,7 @@ public class GoogleCredentialProvider implements CredentialProvider{
     try {
       credentialBuilder.setServiceAccountPrivateKeyFromP12File(p12File);
     } catch (Exception e) {
-      log.severe("Could not set p12 file.");
+      alert("Could not set p12 file.");
       e.printStackTrace();
     }
   }
@@ -46,8 +44,7 @@ public class GoogleCredentialProvider implements CredentialProvider{
       credential.refreshToken();
       return credential;
     } catch (IOException e) {
-      log.severe("Error: " + e.getMessage() + "\n" +
-      "Could not refresh token.");
+      alert("Error refreshing credential: " + e.getMessage());
       e.printStackTrace();
     }
     return credential;
