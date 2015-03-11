@@ -13,14 +13,12 @@ public class AlertService {
   static final com.google.appengine.api.taskqueue.Queue queue =
   com.google.appengine.api.taskqueue.QueueFactory.getQueue("logger");
 
+  static String moduleNameForAlertMessage = "Storage Log Loader (gcs-logs)";
   static String targetModuleHost = 
   ModulesServiceFactory.getModulesService().getVersionHostname("logger", null);
 
   static String env =
   com.google.apphosting.api.ApiProxy.getCurrentEnvironment().getAppId();
-
-  static String currentModule =
-  ModulesServiceFactory.getModulesService().getCurrentModule();
 
   public static TaskHandle alert(String msg, String details) {
     if (msg == null) {return new TaskHandle(null, "");}
@@ -28,7 +26,7 @@ public class AlertService {
 
     return queue.add(withUrl("/queue")
     .param("task", "submit")
-    .param("token", currentModule)
+    .param("token", moduleNameForAlertMessage)
     .param("environment", env)
     .param("severity", "alert")
     .param("error_message", msg)
