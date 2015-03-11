@@ -17,6 +17,7 @@ import com.google.api.services.bigquery.*;
 import com.google.api.services.bigquery.model.*;
 import com.google.api.client.googleapis.util.Utils;
 import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
+import static com.risevision.gcslogs.alert.AlertService.alert;
 
 class DeleteLoadJobFilesServletHandler {
   private static final com.google.appengine.api.taskqueue.Queue queue =
@@ -46,7 +47,7 @@ class DeleteLoadJobFilesServletHandler {
 
     if (params.containsKey("jobId")) {jobId = params.get("jobId")[0];}
     if (jobId == null) {
-      log.severe("No job parameter specifid\n" + "Params: " + params.toString());
+      alert("No job parameter specifid", "Params: " + params.toString());
       throw new RuntimeException("No job to process.");
     }
   }
@@ -94,7 +95,7 @@ class DeleteLoadJobFilesServletHandler {
 
       batchRequest.execute();
     } catch (IOException e) {
-      log.severe(e.toString());
+      log.warning("Error submitting delete for load job files: " + e.getMessage());
       e.printStackTrace();
       this.status = STATUS_PROCESSING;
       return;
@@ -121,7 +122,7 @@ class DeleteLoadJobFilesServletHandler {
         "Error Message: " + e.getMessage() + "\n" +
         "Submitting a separate file delete request." + "\n" +
         "Processing of new logs will be halted until the deletion is cleared. ";
-        log.severe(message);
+        log.warning(message);
 
         queue.add(withUrl("/deleteFailedFile").countdownMillis(5_000L)
         .param("bucket", bucket).param("object", object));

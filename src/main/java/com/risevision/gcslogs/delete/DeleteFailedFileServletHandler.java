@@ -45,7 +45,7 @@ class DeleteFailedFileServletHandler {
       "Error Message: " + e.getMessage() + "\n" +
       "Task will be retried in time according to the task queue settings.\n" +
       "Processing of new logs will be halted until the deletion is successful. ";
-      log.severe(message);
+      log.warning(message);
       e.printStackTrace();
       this.status = STATUS_PROCESSING;
       return;

@@ -20,6 +20,10 @@ public class AlertService {
   static String env =
   com.google.apphosting.api.ApiProxy.getCurrentEnvironment().getAppId();
 
+  public static TaskHandle alert(String msg) {
+    return alert(msg, "");
+  }
+
   public static TaskHandle alert(String msg, String details) {
     if (msg == null) {return new TaskHandle(null, "");}
     if (details == null) {details = "";}
