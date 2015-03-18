@@ -30,7 +30,7 @@ public class DeleteLoadJobFilesServlet extends HttpServlet {
     deleter.deleteFiles();
     response.setStatus(deleter.getStatus());
 
-    if (retries > 0 && retries % 8 == 0
+    if (retries > 0 && retries % 10 == 0
     && deleter.getStatus() != DeleteLoadJobFilesServletHandler.STATUS_OK) {
       com.risevision.gcslogs.alert.AlertService.alert
       ("Problems deleting a load job's files", errorMessage);

@@ -69,10 +69,16 @@ class DeleteLoadJobFilesServletHandler {
       return;
     }
  
-    if (job.getStatus().getErrorResult() != null ||
-    !job.getStatus().getState().equals("DONE")) {
-      this.status = STATUS_PROCESSING;
+    if (job.getStatus().getErrorResult() != null) {
+      log.warning("Job " + jobId + " is in error and will not complete. " +
+      "Ending this delete task. Import will be attempted on next load schedule.");
+      this.status = STATUS_OK;
+      return;
+    }
+
+    if (!job.getStatus().getState().equals("DONE")) {
       log.info("Job " + jobId + " has not completed.  Remaining in queue.");
+      this.status = STATUS_PROCESSING;
       return;
     }
 
