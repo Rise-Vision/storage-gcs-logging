@@ -40,6 +40,13 @@ class DeleteFailedFileServletHandler {
   void deleteFile() {
     try {
       storage.objects().delete(bucket, object).execute();
+    } catch (com.google.api.client.googleapis.json.GoogleJsonResponseException e) {
+      if (e.getDetails().getCode() == 404) {
+        this.status = STATUS_OK;
+        return;
+      }
+      this.status = STATUS_PROCESSING;
+      return;
     } catch (IOException e) {
       String message = "Error deleting log file " + bucket + "/" + object + "\n" +
       "Error Message: " + e.getMessage() + "\n" +
