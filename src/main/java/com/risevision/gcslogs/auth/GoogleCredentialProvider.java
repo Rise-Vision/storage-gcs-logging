@@ -44,7 +44,7 @@ public class GoogleCredentialProvider implements CredentialProvider{
       credential.refreshToken();
       return credential;
     } catch (IOException e) {
-      alert("Error refreshing credential: " + e.getMessage());
+      alert("Error refreshing credential.  No action by support is necessary: " + e.getMessage());
       e.printStackTrace();
     }
     return credential;
