@@ -2,14 +2,20 @@ dependencies:
   pre:
     - mkdir -p src/private-keys
     - git clone git@github.com:Rise-Vision/private-keys.git
+    - cp private-keys/core/.appcfg_oauth2_tokens_java ~
     - cp private-keys/storage-server/* src/private-keys
     - mkdir -p WEB-INF/classes
     - cp src/private-keys/* WEB-INF/classes
+  override:
+    - mvn dependency:resolve -s settings.xml
   post:
     - if [[ ! -e src/private-keys/rvaserver2-7ab43ba8bac3.p12 ]]; then exit 1; fi
     - if [[ ! -e src/log-schemas/cloud_storage_storage_schema_v0.json ]]; then exit 1; fi
     - if [[ ! -e src/log-schemas/cloud_storage_usage_schema_v0.json ]]; then exit 1; fi
     - if find src/main |grep /queue.xml; then exit 1; fi
+    - mvn package -s settings.xml
+    - pwd && mvn appengine:devserver_start:
+        background: true 
 test:
   override:
     - mvn test
@@ -17,10 +23,10 @@ deployment:
   staging:
     branch: /(feature|fix|chore).*/
     commands:
-      - mvn appengine:update -Dappengine.version=$(echo -n $CIRCLE_BRANCH |awk 'BEGIN{FS="/"}{print tolower($NF)}') -Dappengine.appId=rvacore-test <<< $JENKINS_PASS
+      - mvn appengine:update -B -Dappengine.version=$(echo -n $CIRCLE_BRANCH |awk 'BEGIN{FS="/"}{print tolower($NF)}') -Dappengine.appId=rvacore-test
   production:
     branch: master
     commands:
-      - mvn clean package -Pprod
-      - mvn appengine:update -Dappengine.version=r$(echo -n $((CIRCLE_BUILD_NUM%15))) -Dappengine.appId=rvaserver2 <<< $JENKINS_PASS
-      - mvn appengine:set_default_version -Dappengine.version=r$(echo -n $((CIRCLE_BUILD_NUM%15))) -Dappengine.appId=rvaserver2 <<< $JENKINS_PASS
+      - mvn clean package -Pprod -s settings.xml
+      - mvn appengine:update -B -Dappengine.version=r$(echo -n $((CIRCLE_BUILD_NUM%15))) -Dappengine.appId=rvaserver2
+      - mvn appengine:set_default_version -Dappengine.version=r$(echo -n $((CIRCLE_BUILD_NUM%15))) -Dappengine.appId=rvaserver2
