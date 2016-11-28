@@ -38,7 +38,7 @@ public class GCSLogsFetcher {
         }
       }
       req.setPageToken(resp.getNextPageToken());
-    } while (resp.getNextPageToken() != null && (usageLogs.size() + storageLogs.size()) < 50000);
+    } while (resp.getNextPageToken() != null && (usageLogs.size() + storageLogs.size()) < 200000);
   }
 
   List<String> getUsageLogs() {
