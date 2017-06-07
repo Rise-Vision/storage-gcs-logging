@@ -67,6 +67,7 @@ class BQLoadJobInserter implements LoadJobInserter {
     .setCreateDisposition("CREATE_IF_NEEDED")
     .setDestinationTable(tr)
     .setSkipLeadingRows(1)
+    .setAllowQuotedNewlines(true)
     .setSourceUris(fileUris)
     .setSchema(sc)
     .setWriteDisposition("WRITE_APPEND");
