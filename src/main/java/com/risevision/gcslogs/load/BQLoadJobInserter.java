@@ -49,12 +49,27 @@ class BQLoadJobInserter implements LoadJobInserter {
     }
   }
 
+  private String getSuffix() {
+    String yearString = Integer.toString(cal.get(Calendar.YEAR));
+    int month = cal.get(Calendar.MONTH) + 1;
+    int day = cal.get(Calendar.DAY_OF_MONTH);
+    String monthString = Integer.toString(month);
+    String dayString = Integer.toString(day);
+    if (month < 10) {
+      monthString = "0" + monthString;
+    }
+    if (day < 10) {
+      dayString = "0" + dayString;
+    }
+    return yearString + monthString + dayString;
+  }
+
   public Job insertJob(List<String> fileUris, String type) {
     TableReference tr = new TableReference()
     .setDatasetId(DATASET_ID.toString())
     .setProjectId(PROJECT_ID.toString())
     .setTableId
-    (type + "Logs" + cal.get(Calendar.YEAR) + "_" + (cal.get(Calendar.MONTH) + 1)); 
+    (type + "Logs" + getSuffix()); 
 
     TableSchema sc;
     if (type == "Storage") {
