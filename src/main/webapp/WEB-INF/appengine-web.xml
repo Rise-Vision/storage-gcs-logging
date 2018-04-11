@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-  <application>rvacore-test</application>
-  <module>gcs-logs</module>
-  <version>replace-via-command-line</version>
+  <runtime>java8</runtime>
+  <service>display-activation-prerenderer</service>
+  <url-stream-handler>urlfetch</url-stream-handler>
   <instance-class>F1</instance-class>
   <precompilation-enabled>true</precompilation-enabled>
   <ssl-enabled>true</ssl-enabled>
