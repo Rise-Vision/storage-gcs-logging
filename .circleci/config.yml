@@ -27,7 +27,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: storage-server-{{ checksum "pom.xml" }}
+          key: storage-gcs-logging-{{ checksum "pom.xml" }}
             
   "deploy_stage":
     docker: *DOCKERIMAGE
@@ -35,7 +35,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: storage-server-{{ checksum "pom.xml" }}
+          key: storage-gcs-logging-{{ checksum "pom.xml" }}
       - run:
           name: Copy private keys
           command: |
